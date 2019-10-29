@@ -6,6 +6,9 @@ import sys
 # Set the directory you want to start from
 rootDir = sys.argv[1]
 gitpath = rootDir + '/.git'
+
+
+# https://docs.python.org/3.3/library/os.html?highlight=os.walk#os.walk
 for dirpath, dirnames, filenames in os.walk(rootDir):
     if dirpath == gitpath:
         dirnames[:] = []
