@@ -5,11 +5,15 @@ import sys
 import re
 
 def findhits(filepath, regex):
-    print('looking in ' + filepath)
     any_printed = False
     with open(filepath, 'r') as fh:
         n = 0
-        line = fh.readline()
+        line = ''
+        try:
+            line = fh.readline()
+        except (UnicodeDecodeError):
+            print("Got a unicode error: " + filepath)
+            pass
         while line:
             n += 1
             line = line.rstrip()
