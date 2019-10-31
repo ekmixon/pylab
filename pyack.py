@@ -5,7 +5,7 @@ import sys
 import re
 
 def findhits(filepath, regex):
-    #print('looking in ' + filepath)
+    print('looking in ' + filepath)
     any_printed = False
     with open(filepath, 'r') as fh:
         n = 0
