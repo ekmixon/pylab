@@ -2,7 +2,7 @@
 
 import re
 
-filepath = '/Users/andy/range.txt'
+filepath = 'README_win32.pod'
 regex = re.compile('fa')
 with open(filepath, 'r') as fh:
     n = 0
