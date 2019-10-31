@@ -13,7 +13,7 @@ def findhits(filepath, regex):
         line = fh.readline()
         while line:
             n += 1
-            match = re.search(regex, line)
+            match = regex.search(line)
             if match:
                 if not any_printed:
                     print(filepath)
@@ -46,12 +46,12 @@ for dirpath, dirnames, filenames in os.walk(rootDir):
             continue
         if fname == 'POD2HTML.pm':
             continue
-        if re.search(swapfile_regex, fname):
+        if swapfile_regex.search(fname):
             continue
-        if re.search(tilde_regex, fname):
+        if tilde_regex.search(fname):
             continue
-        if re.search(graphic_regex, fname):
+        if graphic_regex.search(fname):
             continue
-        if re.search(garbage_regex, fname):
+        if garbage_regex.search(fname):
             continue
         findhits(dirpath + '/' + fname, regex)
