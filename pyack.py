@@ -4,6 +4,7 @@ import os
 import sys
 import re
 
+
 def findhits(filepath, regex):
     any_printed = False
     with open(filepath, 'r') as fh:
@@ -22,6 +23,7 @@ def findhits(filepath, regex):
             line = fh.readline()
         fh.close()
 
+
 # Set the directory you want to start from
 text_regex = sys.argv[1]
 rootDir = sys.argv[2]
@@ -29,10 +31,10 @@ gitpath = rootDir + '/.git'
 regex = re.compile(text_regex)
 
 
-swapfile_regex = re.compile('\.swp$')
+swapfile_regex = re.compile('\\.swp$')
 tilde_regex = re.compile('~$')
-graphic_regex = re.compile('\.(png|ico|gif)$')
-garbage_regex = re.compile('\.(pbc|pir_output|gz)$')
+graphic_regex = re.compile('\\.(png|ico|gif)$')
+garbage_regex = re.compile('\\.(pbc|pir_output|gz)$')
 for dirpath, dirnames, filenames in os.walk(rootDir):
     if dirpath == gitpath:
         dirnames[:] = []
@@ -53,4 +55,3 @@ for dirpath, dirnames, filenames in os.walk(rootDir):
         if re.search(garbage_regex, fname):
             continue
         findhits(dirpath + '/' + fname, regex)
-
