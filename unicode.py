@@ -6,8 +6,14 @@ filepath = 'README_win32.pod'
 regex = re.compile('fa')
 with open(filepath, 'r') as fh:
     n = 0
-    line = fh.readline()
+    line = ''
+    try:
+        line = fh.readline()
+    except (UnicodeDecodeError):
+        print("Got a unicode error")
+        pass
     while line:
+        print(line)
         n += 1
         line = line.rstrip()
         match = re.search(regex, line)
