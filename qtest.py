@@ -10,15 +10,14 @@ d = Queue()
 def consumer():
     print('consumer waiting')
     n = d.get()
-    print('consumer got ' + str(n))
+    print('consumer got:')
+    print(n)
 
 thread = threading.Thread(target=consumer)
 thread.start()
 
 print('Producer putting')
-d.put(15)
-d.put(29)
-d.put(44)
+d.put([15,'foo.pl'])
 print(d)
 thread.join()
 print('Producer done')

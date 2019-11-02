@@ -4,14 +4,9 @@ import re
 
 filepath = 'README_win32.pod'
 regex = re.compile('fa')
-with open(filepath, 'r') as fh:
+with open(filepath, 'r', encoding='ISO8859') as fh:
     n = 0
-    line = ''
-    try:
-        line = fh.readline()
-    except (UnicodeDecodeError):
-        print("Got a unicode error")
-        pass
+    line = fh.readline()
     while line:
         print(line)
         n += 1

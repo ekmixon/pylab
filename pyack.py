@@ -7,7 +7,7 @@ import re
 
 def findhits(filepath, regex):
     any_printed = False
-    with open(filepath, 'r') as fh:
+    with open(filepath, 'r', encoding='ISO8859') as fh:
         n = 0
         print(filepath)
         line = fh.readline()
@@ -34,7 +34,7 @@ regex = re.compile(text_regex)
 swapfile_regex = re.compile('\\.swp$')
 tilde_regex = re.compile('~$')
 graphic_regex = re.compile('\\.(png|ico|gif)$')
-garbage_regex = re.compile('\\.(pbc|pir_output|gz)$')
+garbage_regex = re.compile('\\.(pbc|gz)$')
 for dirpath, dirnames, filenames in os.walk(rootDir):
     if dirpath == gitpath:
         dirnames[:] = []
