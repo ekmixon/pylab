@@ -12,23 +12,29 @@ import threading
 q = Queue()
 
 def findhits():
-    filepath, regex = q.get()
-    any_printed = False
-    with open(filepath, 'r', encoding='ISO8859') as fh:
-        n = 0
-        line = fh.readline()
-        while line:
-            n += 1
-            match = regex.search(line)
-            if match:
-                if not any_printed:
-                    print(filepath)
-                    any_printed = True
-                line = line.rstrip()
-                print(str(n) + ': ' + line)
-            line = fh.readline()
-        fh.close()
+    while 1:
+        filepath, regex = q.get()
+        if filepath is None:
+            return
 
+        any_printed = False
+        with open(filepath, 'r', encoding='ISO8859') as fh:
+            n = 0
+            line = fh.readline()
+            while line:
+                n += 1
+                match = regex.search(line)
+                if match:
+                    if not any_printed:
+                        print(filepath)
+                        any_printed = True
+                    line = line.rstrip()
+                    print(str(n) + ': ' + line)
+                line = fh.readline()
+            fh.close()
+
+thread = threading.Thread(target=findhits)
+thread.start()
 
 # Set the directory you want to start from
 text_regex = sys.argv[1]
@@ -62,7 +68,7 @@ for dirpath, dirnames, filenames in os.walk(rootDir):
             continue
         # Put our file in the queue, rather than calling findhits
         q.put([dirpath + '/' + fname, regex])
-        thread = threading.Thread(target=findhits)
-        thread.start()
-        thread.join()
 
+# Tell the findhits to stop
+q.put([None,None])
+thread.join()
