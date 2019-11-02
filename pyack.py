@@ -7,7 +7,7 @@ import re
 
 def findhits(filepath, regex):
     any_printed = False
-    with open(filepath, 'r', encoding='ISO8859') as fh:
+    with open(filepath, 'r') as fh:
         n = 0
         print(filepath)
         line = fh.readline()
