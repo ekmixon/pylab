@@ -29,8 +29,6 @@ def findhits():
             line = fh.readline()
         fh.close()
 
-thread = threading.Thread(target=findhits)
-thread.start()
 
 # Set the directory you want to start from
 text_regex = sys.argv[1]
@@ -39,7 +37,6 @@ gitpath = rootDir + '/.git'
 regex = re.compile(text_regex)
 
 
-#thread.join()
 swapfile_regex = re.compile('\\.swp$')
 tilde_regex = re.compile('~$')
 graphic_regex = re.compile('\\.(png|ico|gif)$')
@@ -65,3 +62,7 @@ for dirpath, dirnames, filenames in os.walk(rootDir):
             continue
         # Put our file in the queue, rather than calling findhits
         q.put([dirpath + '/' + fname, regex])
+        thread = threading.Thread(target=findhits)
+        thread.start()
+        thread.join()
+
