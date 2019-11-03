@@ -12,6 +12,9 @@ import threading
 search_queue = Queue()
 filter_queue = Queue()
 
+global regex
+global filter_regex
+
 def findhits():
     while 1:
         filepath, regex = search_queue.get()
@@ -43,6 +46,7 @@ def filefilter():
     while 1:
         filepath, regex = filter_queue.get()
         if filepath is None:
+            search_queue.put([None,None])
             return
         if fname == 'string_cs.t':
             continue
@@ -57,7 +61,12 @@ def filefilter():
         if garbage_regex.search(fname):
             continue
         # Put our file in the queue, rather than calling findhits
-        search_queue.put([filepath, regex])
+        with open(filepath, 'r', encoding='ISO8859') as f:
+            block = f.read(1000000)
+            match = filter_regex.search(block)
+            if match:
+                search_queue.put([filepath, regex])
+            f.close()
 
 search_thread = threading.Thread(target=findhits)
 search_thread.start()
@@ -70,6 +79,7 @@ text_regex = sys.argv[1]
 rootDir = sys.argv[2]
 gitpath = rootDir + '/.git'
 regex = re.compile(text_regex)
+filter_regex = re.compile(text_regex, re.M | re.S)
 
 for dirpath, dirnames, filenames in os.walk(rootDir):
     if dirpath == gitpath:
@@ -81,7 +91,6 @@ for dirpath, dirnames, filenames in os.walk(rootDir):
         filter_queue.put([dirpath + '/' + fname, regex])
 
 # Tell the findhits to stop
-search_queue.put([None,None])
 filter_queue.put([None,None])
 search_thread.join()
 filter_thread.join()
