@@ -17,20 +17,20 @@ parser = argparse.ArgumentParser(description=progdesc)
 group_searching = parser.add_argument_group('Searching')
 group_searching.add_argument(
     '-i', '--ignore-case',
-    help='Ignore case distinctions in PATTERN',
+    help='Ignore case distinctions in PATTERN.',
     dest='i',
     action='store_true'
 )
 group_searching.add_argument(
     '-I',
-    help='Turns on case-sensitivity in PATTERN. Negates -i and --smart-case',
+    help='Turns on case-sensitivity in PATTERN.',
     dest='i',
     action='store_false',
 )
 # XXX How do we do the negate?
 group_searching.add_argument(
     '-S', '--smart-case',
-    help='Ignore case distinctions in PATTERN, only if PATTERN contains no upper case. Ignore if -i or -I are specified.',
+    help='Ignore case distinctions in PATTERN, only if PATTERN contains no upper case.',
     dest='S',
     action='store_true',
 )
