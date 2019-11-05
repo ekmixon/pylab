@@ -29,17 +29,17 @@ def filefilter():
         if filepath is None:
             search_queue.put([None,None])
             return
-        if fname == 'string_cs.t':
+        if filepath == 'string_cs.t':
             continue
-        if fname == 'POD2HTML.pm':
+        if filepath == 'POD2HTML.pm':
             continue
-        if swapfile_regex.search(fname):
+        if swapfile_regex.search(filepath):
             continue
-        if tilde_regex.search(fname):
+        if tilde_regex.search(filepath):
             continue
-        if graphic_regex.search(fname):
+        if graphic_regex.search(filepath):
             continue
-        if garbage_regex.search(fname):
+        if garbage_regex.search(filepath):
             continue
         search_queue.put([filepath, regex])
 
@@ -60,8 +60,8 @@ for dirpath, dirnames, filenames in os.walk(rootDir):
         continue
     dirnames.sort()
     filenames.sort()
-    for fname in filenames:
-        filter_queue.put([dirpath + '/' + fname, regex])
+    for i in filenames:
+        filter_queue.put([dirpath + '/' + i, regex])
 
 # Tell the findhits to stop
 filter_queue.put([None,None])
