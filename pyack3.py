@@ -29,11 +29,8 @@ def findhits():
                 n += 1
                 match = regex.search(line)
                 if match:
-                    if not any_printed:
-                        print(filepath)
-                        any_printed = True
                     line = line.rstrip()
-                    print(str(n) + ': ' + line)
+                    print(filepath+':'+str(n)+':'+line)
                 line = fh.readline()
             fh.close()
 
