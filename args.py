@@ -55,6 +55,12 @@ parser.add_argument(
 );
 
 parser.add_argument(
+    '-t', '--type',
+    help='Include only files of type TYPE, e.g. python, html, markdown, etc',
+    dest='type',
+);
+
+parser.add_argument(
     '-A', '--after-context',
     help='Print NUM lines of trailing context after matching lines',
     type=int,
