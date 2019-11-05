@@ -48,17 +48,17 @@ def filefilter():
         if filepath is None:
             search_queue.put([None,None])
             return
-        if fname == 'string_cs.t':
+        if filepath == 'string_cs.t':
             continue
-        if fname == 'POD2HTML.pm':
+        if filepath == 'POD2HTML.pm':
             continue
-        if swapfile_regex.search(fname):
+        if swapfile_regex.search(filepath):
             continue
-        if tilde_regex.search(fname):
+        if tilde_regex.search(filepath):
             continue
-        if graphic_regex.search(fname):
+        if graphic_regex.search(filepath):
             continue
-        if garbage_regex.search(fname):
+        if garbage_regex.search(filepath):
             continue
         # Put our file in the queue, rather than calling findhits
         with open(filepath, 'r', encoding='ISO8859') as f:
