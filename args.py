@@ -2,7 +2,7 @@
 
 import argparse
 
-progdesc="""
+progdesc = """
 Search for PATTERN in each source file in the tree from the current
 directory on down.  If any files or directories are specified, then
 only those files and directories are checked.  ack may also search
@@ -16,16 +16,16 @@ parser = argparse.ArgumentParser(description=progdesc)
 
 group_searching = parser.add_argument_group('Searching')
 group_searching.add_argument(
-    '-i','--ignore-case',
+    '-i', '--ignore-case',
     help='Ignore case distinctions in PATTERN',
-    dest='i', default=True, action='store_true'
+    dest='i',
+    action='store_true'
 )
 group_searching.add_argument(
     '-I',
     help='Turns on case-sensitivity in PATTERN. Negates -i and --smart-case',
     dest='i',
     action='store_false',
-    default=False,
 )
 # XXX How do we do the negate?
 group_searching.add_argument(
@@ -33,8 +33,7 @@ group_searching.add_argument(
     help='Ignore case distinctions in PATTERN, only if PATTERN contains no upper case. Ignore if -i or -I are specified.',
     dest='S',
     action='store_true',
-    default=False,
-);
+)
 
 group_searching.add_argument(
     '-v', '--invert-match',
@@ -42,20 +41,20 @@ group_searching.add_argument(
     dest='v',
     action='store_true',
     default=False,
-);
+)
 group_searching.add_argument(
     '-w', '--word-regexp',
     help='Force PATTERN to match only whole word',
     dest='w',
     action='store_true',
     default=False,
-);
+)
 
 group_searching.add_argument(
     '-t', '--type',
     help='Include only files of type TYPE, e.g. python, html, markdown, etc',
     dest='type',
-);
+)
 
 group_output = parser.add_argument_group('Search output')
 group_output.add_argument(
@@ -64,28 +63,28 @@ group_output.add_argument(
     type=int,
     metavar='NUM',
     dest='A'
-);
+)
 group_output.add_argument(
     '-B', '--before-context',
     help='Print NUM lines of leading context before matching lines',
     type=int,
     metavar='NUM',
     dest='B'
-);
+)
 group_output.add_argument(
     '-C', '--context',
     help='Print NUM lines (default 2) of output context',
     type=int,
     metavar='NUM',
     dest='C'
-);
+)
 group_output.add_argument(
     '-m', '--max-count',
     help='Stop searching in each file after NUM matches',
     type=int,
     metavar='NUM',
     dest='m'
-);
+)
 
 group_finding = parser.add_argument_group('File finding')
 group_finding.add_argument(
@@ -99,14 +98,14 @@ group_finding.add_argument(
     help='Same as -f, but only select files matching PATTERN.',
     metavar='PATTERN',
     dest='g',
-);
+)
 
 
 group_misc = parser.add_argument_group('Miscellaneous')
 group_misc.add_argument(
     '--thpppt',
     help='Bill the Cat',
-);
+)
 group_misc.add_argument(
     '--bar',
     help='The warning admiral',
@@ -114,7 +113,7 @@ group_misc.add_argument(
 group_misc.add_argument(
     '--cathy',
     help='Chocolate! Chocolate! Chocolate!',
-);
+)
 
 opts = parser.parse_args()
 print(opts)
