@@ -125,7 +125,7 @@ def get_opt():
         const=0,
     )
 
-    group_finding = parser.add_argument_group('File finding')
+    group_finding = parser.add_mutually_exclusive_group()
     group_finding.add_argument(
         '-f',
         help='Only print the files selected, without searching.  The PATTERN must not be specified.',
@@ -171,12 +171,15 @@ def get_opt():
     # Not all options need pattern or starting points
     opt = parser.parse_args()
 
+    if not opt.pattern:
+        parser.print_help()
+        return None
+
     return opt
 
 
 def main():
     opt = get_opt()
-    print(opt)
 
 
 main()
