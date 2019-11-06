@@ -60,14 +60,21 @@ def get_opt():
     group_filetypes.add_argument(
         '-t', '--type',
         help='Include only files of type TYPE, e.g. python, html, markdown, etc',
+        metavar='TYPE',
         action='append',
         dest='t',
     )
     group_filetypes.add_argument(
         '-T', '--notype',
         help='Exclude files of type TYPE, e.g. python, html, markdown, etc',
+        metavar='TYPE',
         action='append',
         dest='T',
+    )
+    group_filetypes.add_argument(
+        '--help-types',
+        help='Display all known types and they are defined',
+        action='store_true',
     )
 
     group_output = parser.add_argument_group('Search output')
@@ -153,7 +160,7 @@ def get_opt():
     parser.add_argument(
         'pattern',
         metavar='PATTERN',
-        nargs=1,
+        nargs='?',
     )
     parser.add_argument(
         'starter',
