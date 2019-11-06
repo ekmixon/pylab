@@ -1,0 +1,9 @@
+#!/usr/bin/python3
+
+from options import get_options
+
+def main():
+    opt = get_options()
+    print(opt)
+
+main()

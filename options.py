@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
-
 import argparse
 
 
-def get_opt():
+def get_options():
     progdesc = """
         Search for PATTERN in each source file in the tree from the current
         directory on down.  If any files or directories are specified, then
@@ -177,9 +175,6 @@ def get_opt():
 
     return opt
 
-
-def main():
-    opt = get_opt()
-
-
-main()
+if __name__ == "__main__":
+    opt = get_options()
+    print(opt)
