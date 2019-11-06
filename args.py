@@ -56,10 +56,18 @@ def get_opt():
         default=False,
     )
 
-    group_searching.add_argument(
+    group_filetypes = parser.add_argument_group('File types')
+    group_filetypes.add_argument(
         '-t', '--type',
         help='Include only files of type TYPE, e.g. python, html, markdown, etc',
-        dest='type',
+        action='append',
+        dest='t',
+    )
+    group_filetypes.add_argument(
+        '-T', '--notype',
+        help='Exclude files of type TYPE, e.g. python, html, markdown, etc',
+        action='append',
+        dest='T',
     )
 
     group_output = parser.add_argument_group('Search output')
@@ -82,7 +90,9 @@ def get_opt():
         help='Print NUM lines (default 2) of output context',
         type=int,
         metavar='NUM',
-        dest='C'
+        dest='C',
+        nargs='?',
+        default=2,
     )
     group_output.add_argument(
         '-m', '--max-count',
@@ -90,6 +100,22 @@ def get_opt():
         type=int,
         metavar='NUM',
         dest='m'
+    )
+    group_output.add_argument(
+        '-p', '--proximate',
+        help='Separate match output with blank lines unless they are within LINES lines from each other (default 1)',
+        metavar='LINES',
+        dest='p',
+        type=int,
+        default=1,
+        nargs='?',
+    )
+    group_output.add_argument(
+        '-P',
+        help='Negates --proximate',
+        dest='p',
+        action='store_const',
+        const=0,
     )
 
     group_finding = parser.add_argument_group('File finding')
@@ -110,26 +136,40 @@ def get_opt():
     group_misc.add_argument(
         '--thpppt',
         help='Bill the Cat',
+        action='store_true',
     )
     group_misc.add_argument(
         '--bar',
         help='The warning admiral',
+        action='store_true',
     )
     group_misc.add_argument(
         '--cathy',
         help='Chocolate! Chocolate! Chocolate!',
+        action='store_true',
+    )
+
+    parser.add_argument('--version', action='version', version='4.0.0prealpha')
+    parser.add_argument(
+        'pattern',
+        metavar='PATTERN',
+        nargs=1,
+    )
+    parser.add_argument(
+        'starter',
+        metavar='FILE OR DIRECTORY',
+        nargs='*',
     )
 
     # Not all options need pattern or starting points
-    opt = parser.parse_known_args()
+    opt = parser.parse_args()
 
     return opt
 
 
 def main():
-    opt, extra = get_opt()
+    opt = get_opt()
     print(opt)
-    print(extra)
 
 
 main()
