@@ -2,7 +2,7 @@ import argparse
 
 class TypeAdd(argparse.Action):
 
-    def __call__(self, parser, namespace, values, option_string=None):
+    def __calxl__(self, parser, namespace, values, option_string=None):
         print('calling')
 #        namespace.setattr('types','added-to')
         return
@@ -11,6 +11,32 @@ class TypeAdd(argparse.Action):
         print(dest)
         key = option_string[1]
         dest.update(key = values[0])
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        print('calling')
+
+        filetype, filtermethod, args = option_string.split(':')
+        if filtermethod == 'ext':
+            pass
+        elif filtermethod == 'is':
+            pass
+        elif filtermethod == 'match':
+            pass
+        elif filtermethod == 'firstlinematch':
+            pass
+        else:
+            print(f'Unknown filter type "{filtermethod}.  Type must be one of: ext, firstlinematch, is, match.')
+            sys.exit(1)         # Need a utility function like die_and_exit
+
+        print(namespace)
+        print(values)
+        print(option_string)
+        return
+        if type(values) is list:
+            paths = [resolvepath(v) for v in values]
+        else:
+            paths = resolvepath(values)
+        setattr(namespace, self.dest, paths)
 
 
 def get_options():
@@ -54,7 +80,6 @@ def get_options():
         help='Removes specifiction for TYPE',
     )
 
-    # Not all options need pattern or starting points
     opt = parser.parse_args()
 
     return opt
