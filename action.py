@@ -1,22 +1,27 @@
 import argparse
+import re
+import sys
+from filetyper import Filetyper, FiletypeExt
 
+
+filetyperobject = Filetyper()
 class TypeAdd(argparse.Action):
-
-    def __calxl__(self, parser, namespace, values, option_string=None):
-        print('calling')
-#        namespace.setattr('types','added-to')
-        return
-        print('%r %r %r' % (namespace, values, option_string))
-        dest = getattr(namespace, self.dest)
-        print(dest)
-        key = option_string[1]
-        dest.update(key = values[0])
-
     def __call__(self, parser, namespace, values, option_string=None):
-        print('calling')
+        spec = values[0]
+        filterspec_re = re.compile('^(\w+):(ext|is|match|firstlinematch):(.+)$')
+        matches = filterspec_re.match(spec)
+        if not matches:
+            print(f'Invalid filterspec "{spec}"')
+            sys.exit(1)
 
-        filetype, filtermethod, args = option_string.split(':')
+        filetype = matches.group(1)
+        filtermethod = matches.group(2)
+        args = matches.group(3)
         if filtermethod == 'ext':
+            extensions = args.split(':')
+            for ext in extensions:
+                matcher = FiletypeExt(filetype, args)
+                filetyperobject.add_matcher(matcher)
             pass
         elif filtermethod == 'is':
             pass
@@ -28,15 +33,10 @@ class TypeAdd(argparse.Action):
             print(f'Unknown filter type "{filtermethod}.  Type must be one of: ext, firstlinematch, is, match.')
             sys.exit(1)         # Need a utility function like die_and_exit
 
-        print(namespace)
-        print(values)
-        print(option_string)
-        return
-        if type(values) is list:
-            paths = [resolvepath(v) for v in values]
-        else:
-            paths = resolvepath(values)
-        setattr(namespace, self.dest, paths)
+        import pprint
+        pp = pprint.PrettyPrinter()
+        pp.pprint(filetyperobject)
+
 
 
 def get_options():
