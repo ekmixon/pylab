@@ -1,43 +1,17 @@
 import argparse
 import re
 import sys
-from filetyper import Filetyper, FiletypeExt
-
+from filetyper import Filetyper
 
 filetyperobject = Filetyper()
 class TypeAdd(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         spec = values[0]
-        filterspec_re = re.compile('^(\w+):(ext|is|match|firstlinematch):(.+)$')
-        matches = filterspec_re.match(spec)
-        if not matches:
-            print(f'Invalid filterspec "{spec}"')
-            sys.exit(1)
 
-        filetype = matches.group(1)
-        filtermethod = matches.group(2)
-        args = matches.group(3)
-        if filtermethod == 'ext':
-            extensions = args.split(':')
-            for ext in extensions:
-                matcher = FiletypeExt(filetype, args)
-                filetyperobject.add_matcher(matcher)
-            pass
-        elif filtermethod == 'is':
-            pass
-        elif filtermethod == 'match':
-            pass
-        elif filtermethod == 'firstlinematch':
-            pass
-        else:
-            print(f'Unknown filter type "{filtermethod}.  Type must be one of: ext, firstlinematch, is, match.')
+        err = filetyperobject.add_typespec(spec)
+        if err:
+            print(err)
             sys.exit(1)         # Need a utility function like die_and_exit
-
-        import pprint
-        pp = pprint.PrettyPrinter()
-        pp.pprint(filetyperobject)
-
-
 
 def get_options():
 
@@ -81,6 +55,8 @@ def get_options():
     )
 
     opt = parser.parse_args()
+
+    print(opt)
 
     return opt
 
