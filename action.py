@@ -53,13 +53,19 @@ def get_options():
         #action=TypeDel,
         help='Removes specifiction for TYPE',
     )
+    parser.add_argument(
+        'argv',
+        help='YOU SHOULD NOT NEED TO SEE THIS TEXT.  I need to make this hidden',
+        nargs='*',
+    )
 
     opt = parser.parse_args()
 
-    print(opt)
-
     return opt
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     opt = get_options()
     print(opt)
+    for i in opt.argv:
+        filetypes = filetyperobject.filetypes(i)
+        print(i,filetypes)

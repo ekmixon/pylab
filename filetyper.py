@@ -12,8 +12,9 @@ Some of the types are not real types, like '__TEXT__' and '__IGNORE__', which co
 from enum import Enum
 from collections import namedtuple
 import re
+import os
 
-TypeSpec = namedtuple('TypeSpec', ['method', 'type'])
+TypeSpec = namedtuple('TypeSpec', ['method', 'filetype', 'arg'])
 
 class TypeMethod(Enum):
     IS = 0,
@@ -39,13 +40,13 @@ class Filetyper:
         if filtermethod == 'ext':
             extensions = args.split(',')
             for ext in extensions:
-                self.matchers.append(TypeSpec(TypeMethod.EXT, ext))
+                self.matchers.append(TypeSpec(TypeMethod.EXT, filetype, ext))
         elif filtermethod == 'is':
-            self.matchers.append(TypeSpec(TypeMethod.IS, args))
+            self.matchers.append(TypeSpec(TypeMethod.IS, filetype, args))
         elif filtermethod == 'match':
-            self.matchers.append(TypeSpec(TypeMethod.MATCH, args))
+            self.matchers.append(TypeSpec(TypeMethod.MATCH, filetype, args))
         elif filtermethod == 'firstlinematch':
-            self.matchers.append(TypeSpec(TypeMethod.FLM, args))
+            self.matchers.append(TypeSpec(TypeMethod.FLM, filetype, args))
         else:
             return f'Unknown filter type "{filtermethod}.  Type must be one of: ext, firstlinematch, is, match.'
 
@@ -54,5 +55,18 @@ class Filetyper:
     def filetypes(self, filename):
         basename, file_extension = os.path.splitext(filename)
 
-        print(file_extension)
-        return []
+        filetypes = []
+        if file_extension is not None:
+            file_extension = file_extension[1:]
+            for matcher in self.matchers:
+                if matcher.method == TypeMethod.EXT:
+                    if file_extension == matcher.arg:
+                        filetypes.append(matcher.filetype)
+                elif matcher.method == TypeMethod.IS:
+                    pass
+                elif matcher.method == TypeMethod.MATCH:
+                    pass
+                elif matcher.method == TypeMethod.FLM:
+                    pass
+
+        return filetypes
