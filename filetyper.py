@@ -44,9 +44,9 @@ class Filetyper:
         elif filtermethod == 'is':
             self.matchers.append(TypeSpec(TypeMethod.IS, filetype, args))
         elif filtermethod == 'match':
-            self.matchers.append(TypeSpec(TypeMethod.MATCH, filetype, args))
+            self.matchers.append(TypeSpec(TypeMethod.MATCH, filetype, re.compile(args)))
         elif filtermethod == 'firstlinematch':
-            self.matchers.append(TypeSpec(TypeMethod.FLM, filetype, args))
+            self.matchers.append(TypeSpec(TypeMethod.FLM, filetype, re.compile(args)))
         else:
             return f'Unknown filter type "{filtermethod}.  Type must be one of: ext, firstlinematch, is, match.'
 
@@ -66,7 +66,8 @@ class Filetyper:
                     if filename == matcher.arg:
                         filetypes.append(matcher.filetype)
                 elif matcher.method == TypeMethod.MATCH:
-                    pass
+                    if matcher.arg.search(filename):
+                        filetypes.append(matcher.filetype)
                 elif matcher.method == TypeMethod.FLM:
                     pass
 
