@@ -63,7 +63,8 @@ class Filetyper:
                     if file_extension == matcher.arg:
                         filetypes.append(matcher.filetype)
                 elif matcher.method == TypeMethod.IS:
-                    pass
+                    if filename == matcher.arg:
+                        filetypes.append(matcher.filetype)
                 elif matcher.method == TypeMethod.MATCH:
                     pass
                 elif matcher.method == TypeMethod.FLM:
