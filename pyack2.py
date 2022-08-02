@@ -20,17 +20,14 @@ def findhits():
         any_printed = False
         with open(filepath, 'r', encoding='ISO8859') as fh:
             n = 0
-            line = fh.readline()
-            while line:
+            while line := fh.readline():
                 n += 1
-                match = regex.search(line)
-                if match:
+                if match := regex.search(line):
                     if not any_printed:
                         print(filepath)
                         any_printed = True
                     line = line.rstrip()
-                    print(str(n) + ': ' + line)
-                line = fh.readline()
+                    print(f'{n}: {line}')
             fh.close()
 
 thread = threading.Thread(target=findhits)
@@ -39,7 +36,7 @@ thread.start()
 # Set the directory you want to start from
 text_regex = sys.argv[1]
 rootDir = sys.argv[2]
-gitpath = rootDir + '/.git'
+gitpath = f'{rootDir}/.git'
 regex = re.compile(text_regex)
 
 
@@ -67,7 +64,7 @@ for dirpath, dirnames, filenames in os.walk(rootDir):
         if garbage_regex.search(fname):
             continue
         # Put our file in the queue, rather than calling findhits
-        q.put([dirpath + '/' + fname, regex])
+        q.put([f'{dirpath}/{fname}', regex])
 
 # Tell the findhits to stop
 q.put([None,None])

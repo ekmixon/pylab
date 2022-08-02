@@ -31,7 +31,7 @@ def filefilter(filepath):
 
 # Set the directory you want to start from
 rootDir = sys.argv[1]
-gitpath = rootDir + '/.git'
+gitpath = f'{rootDir}/.git'
 
 for dirpath, dirnames, filenames in os.walk(rootDir):
     if dirpath == gitpath:
@@ -40,4 +40,4 @@ for dirpath, dirnames, filenames in os.walk(rootDir):
     dirnames.sort()
     filenames.sort()
     for i in filenames:
-        filefilter(dirpath + '/' + i)
+        filefilter(f'{dirpath}/{i}')

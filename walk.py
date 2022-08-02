@@ -5,7 +5,7 @@ import sys
 
 # Set the directory you want to start from
 rootDir = sys.argv[1]
-gitpath = rootDir + '/.git'
+gitpath = f'{rootDir}/.git'
 
 
 # https://docs.python.org/3.3/library/os.html?highlight=os.walk#os.walk
@@ -16,4 +16,4 @@ for dirpath, dirnames, filenames in os.walk(rootDir):
     dirnames.sort()
     filenames.sort()
     for fname in filenames:
-        print('%s/%s' % (dirpath, fname))
+        print(f'{dirpath}/{fname}')

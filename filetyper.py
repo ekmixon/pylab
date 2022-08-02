@@ -34,9 +34,9 @@ class Filetyper:
         if not matches:
             return f'Invalid typespec "{typespec}"'
 
-        filetype = matches.group(1)
-        filtermethod = matches.group(2)
-        args = matches.group(3)
+        filetype = matches[1]
+        filtermethod = matches[2]
+        args = matches[3]
         if filtermethod == 'ext':
             extensions = args.split(',')
             for ext in extensions:
@@ -58,17 +58,18 @@ class Filetyper:
         filetypes = []
         if file_extension is not None:
             file_extension = file_extension[1:]
-            for matcher in self.matchers:
-                if matcher.method == TypeMethod.EXT:
-                    if file_extension == matcher.arg:
-                        filetypes.append(matcher.filetype)
-                elif matcher.method == TypeMethod.IS:
-                    if filename == matcher.arg:
-                        filetypes.append(matcher.filetype)
-                elif matcher.method == TypeMethod.MATCH:
-                    if matcher.arg.search(filename):
-                        filetypes.append(matcher.filetype)
-                elif matcher.method == TypeMethod.FLM:
-                    pass
+            filetypes.extend(
+                matcher.filetype
+                for matcher in self.matchers
+                if matcher.method == TypeMethod.EXT
+                and file_extension == matcher.arg
+                or matcher.method != TypeMethod.EXT
+                and matcher.method == TypeMethod.IS
+                and filename == matcher.arg
+                or matcher.method != TypeMethod.EXT
+                and matcher.method != TypeMethod.IS
+                and matcher.method == TypeMethod.MATCH
+                and matcher.arg.search(filename)
+            )
 
         return filetypes

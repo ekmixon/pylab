@@ -51,7 +51,7 @@ filter_thread.start()
 
 # Set the directory you want to start from
 rootDir = sys.argv[1]
-gitpath = rootDir + '/.git'
+gitpath = f'{rootDir}/.git'
 regex = re.compile('x')
 
 for dirpath, dirnames, filenames in os.walk(rootDir):
@@ -61,7 +61,7 @@ for dirpath, dirnames, filenames in os.walk(rootDir):
     dirnames.sort()
     filenames.sort()
     for i in filenames:
-        filter_queue.put([dirpath + '/' + i, regex])
+        filter_queue.put([f'{dirpath}/{i}', regex])
 
 # Tell the findhits to stop
 filter_queue.put([None,None])

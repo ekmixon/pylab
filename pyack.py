@@ -10,24 +10,21 @@ def findhits(filepath, regex):
     with open(filepath, 'r') as fh:
         n = 0
         print(filepath)
-        line = fh.readline()
-        while line:
+        while line := fh.readline():
             n += 1
-            match = regex.search(line)
-            if match:
+            if match := regex.search(line):
                 if not any_printed:
                     print(filepath)
                     any_printed = True
                 line = line.rstrip()
-                print(str(n) + ': ' + line)
-            line = fh.readline()
+                print(f'{n}: {line}')
         fh.close()
 
 
 # Set the directory you want to start from
 text_regex = sys.argv[1]
 rootDir = sys.argv[2]
-gitpath = rootDir + '/.git'
+gitpath = f'{rootDir}/.git'
 regex = re.compile(text_regex)
 
 
@@ -54,4 +51,4 @@ for dirpath, dirnames, filenames in os.walk(rootDir):
             continue
         if garbage_regex.search(fname):
             continue
-        findhits(dirpath + '/' + fname, regex)
+        findhits(f'{dirpath}/{fname}', regex)

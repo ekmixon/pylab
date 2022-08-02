@@ -8,8 +8,7 @@ class TypeAdd(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         spec = values[0]
 
-        err = filetyperobject.add_typespec(spec)
-        if err:
+        if err := filetyperobject.add_typespec(spec):
             print(err)
             sys.exit(1)         # Need a utility function like die_and_exit
 
@@ -59,9 +58,7 @@ def get_options():
         nargs='*',
     )
 
-    opt = parser.parse_args()
-
-    return opt
+    return parser.parse_args()
 
 if __name__ == '__main__':
     opt = get_options()
